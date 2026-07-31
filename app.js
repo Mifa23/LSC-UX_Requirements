@@ -675,15 +675,13 @@ function renderCards() {
   grid.innerHTML = filteredData.map((row, _i) => {
 
     const idx = DATA.indexOf(row);
-    // Inline meta: Solution Type · Customization Level · Release Needed
+    // Inline meta: Solution Type · Customization Level · Release Needed (always 3 values)
     const metaParts = [
-      row.solutionType ? esc(row.solutionType) : null,
-      row.customLevel  ? esc(row.customLevel)  : null,
-      row.release      ? esc(row.release)      : null,
-    ].filter(Boolean);
-    const inlineMeta = metaParts.length
-      ? `<div class="card-inline-meta">${metaParts.join('<span class="card-meta-sep">·</span>')}</div>`
-      : '';
+      esc(row.solutionType) || '–',
+      esc(row.customLevel)  || '–',
+      esc(row.release)      || '–',
+    ];
+    const inlineMeta = `<div class="card-inline-meta">${metaParts.join('<span class="card-meta-sep">·</span>')}</div>`;
 
     // Scope icon
     const scopeIcon = row.scope === 'Regional' ? ICON_PIN : ICON_GLOBE;
