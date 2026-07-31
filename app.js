@@ -45,8 +45,12 @@ toggleEye.addEventListener('click', () => {
 
 /* ═══════════════════════════════════════════
    DATA  –  source: "UX Requirements" tab
+   INITIAL_DATA is the canonical reset state.
+   DATA is loaded from localStorage if present.
 ═══════════════════════════════════════════ */
-const DATA = [
+const STORAGE_KEY = 'lsc_table_data';
+
+const INITIAL_DATA = [
   { requirement: "Branding customization", description: "Map JNJ branding elements: logo, and tokens: colors and icons", category: "App", solutionType: "OOTB Configuration", customLevel: "", release: "Post 0.5", priority: "Nice to have", scope: "Global", comments: "" },
   { requirement: "Overall Progress metrics", description: "Module configured for high level metrics of user / against plan", category: "Feature", solutionType: "Custom", customLevel: "TBD", release: "Post 0.5", priority: "Must have", scope: "Global", comments: "" },
   { requirement: "My Geo Overview metrics", description: "Module configured for high level metrics of territory / against plan", category: "Feature", solutionType: "Custom", customLevel: "TBD", release: "Post 0.5", priority: "Must have", scope: "Global", comments: "" },
@@ -72,6 +76,21 @@ const DATA = [
   { requirement: "Voice to Voice user interaction", description: "Language: Should be trained to understand JnJ products, workflows, regional colloquial terms, business jargon, and ask clarifying questions when confused. Interaction: User can 'pause' or 'save' (saves as draft) during V to V interaction.", category: "Agentforce", solutionType: "", customLevel: "TBD", release: "R0.5", priority: "Must have", scope: "Global", comments: "" },
   { requirement: "Usability: NN/M - Touch Targets", description: "Touch target standards recommend a minimum physical size of 1cm × 1cm (0.4in × 0.4in) for comfortable use and to prevent tapping errors. Buttons should not overlap each other's touch target.", category: "", solutionType: "", customLevel: "TBD", release: "R0.5", priority: "Should have", scope: "Global", comments: "" }
 ];
+
+// Load persisted data or fall back to initial state
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return INITIAL_DATA.map(r => ({ ...r }));
+}
+
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(DATA));
+}
+
+const DATA = loadData();
 
 /* ═══════════════════════════════════════════
    DROPDOWN CONFIG
@@ -393,6 +412,7 @@ modalSave.addEventListener('click', () => {
     DATA.push(row);
   }
 
+  saveData();
   closeModal();
   applyFilters();
 
@@ -504,6 +524,7 @@ function initDragAndDrop(tbody) {
       const [moved] = DATA.splice(fromPos, 1);
       DATA.splice(toPos, 0, moved);
 
+      saveData();
       applyFilters();
     });
   });
@@ -549,9 +570,10 @@ function onTextCellClick(e) {
 
   function save() {
     DATA[idx][field] = ta.value.trim();
+    saveData();
     applyFilters();
   }
-  ta.addEventListener('blur', save);
+  ta.addEventListener('blur', save, { once: true });
   ta.addEventListener('keydown', e => {
     if (e.key === 'Escape') { ta.value = cur; ta.blur(); }
     e.stopPropagation();
@@ -594,6 +616,7 @@ function onSelectCellClick(e) {
       btn.addEventListener('click', e => {
         e.stopPropagation();
         DATA[idx][field] = opt.value;
+        saveData();
         closeDropdown();
         applyFilters();
       });
@@ -610,6 +633,7 @@ function onSelectCellClick(e) {
       btn.addEventListener('click', e => {
         e.stopPropagation();
         DATA[idx][field] = val;
+        saveData();
         closeDropdown();
         applyFilters();
       });
@@ -628,6 +652,7 @@ function onSelectCellClick(e) {
     clearBtn.addEventListener('click', e => {
       e.stopPropagation();
       DATA[idx][field] = '';
+      saveData();
       closeDropdown();
       applyFilters();
     });
