@@ -777,9 +777,10 @@ function render() {
   try {
     const snapshot = await dataRef.get();
     if (snapshot.exists()) {
-      // Hydrate DATA from Firebase
+      // Firebase may return an array OR a numeric-keyed object — handle both
       const saved = snapshot.val();
-      if (Array.isArray(saved)) saved.forEach(r => DATA.push(r));
+      const rows  = Array.isArray(saved) ? saved : Object.values(saved);
+      rows.filter(Boolean).forEach(r => DATA.push(r));
     } else {
       // First run: seed Firebase with INITIAL_DATA
       INITIAL_DATA.forEach(r => DATA.push({ ...r }));
@@ -789,6 +790,6 @@ function render() {
     console.warn('Firebase load failed, falling back to INITIAL_DATA:', err);
     INITIAL_DATA.forEach(r => DATA.push({ ...r }));
   }
-  updateRecordCount();
-  render();
+  // applyFilters rebuilds filteredData from DATA before rendering
+  applyFilters();
 })();
