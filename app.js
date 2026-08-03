@@ -468,7 +468,8 @@ function renderTable() {
   noResults.classList.add('hidden');
 
   tbody.innerHTML = filteredData.map((row, i) => {
-    const idx = DATA.indexOf(row);
+    const idx    = DATA.indexOf(row);
+    const rowId  = `UXREQ_${String(idx + 1).padStart(3, '0')}`;
     return `<tr data-idx="${idx}" draggable="true">
       <td class="drag-handle" title="Drag to reorder">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -477,6 +478,7 @@ function renderTable() {
           <circle cx="9" cy="19" r="1" fill="currentColor"/><circle cx="15" cy="19" r="1" fill="currentColor"/>
         </svg>
       </td>
+      <td class="id-cell">${rowId}</td>
       <td class="editable editable-text" data-field="requirement">${esc(row.requirement) || '<span class="cell-empty">Click to edit…</span>'}</td>
       <td class="editable editable-text" data-field="description">${esc(row.description) || '<span class="cell-empty">Click to edit…</span>'}</td>
       <td class="editable editable-select" data-field="category">
