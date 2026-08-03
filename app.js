@@ -44,12 +44,29 @@ toggleEye.addEventListener('click', () => {
 });
 
 /* ═══════════════════════════════════════════
-   DATA  –  source: "UX Requirements" tab
-   INITIAL_DATA is the canonical reset state.
-   DATA is loaded from localStorage if present.
+   FIREBASE CONFIG
+   Paste your Firebase project config here.
+   Get it from: Firebase Console → Project Settings → Your apps → </> (web)
 ═══════════════════════════════════════════ */
-const STORAGE_KEY = 'lsc_table_data';
+const firebaseConfig = {
+  apiKey:            "AIzaSyB_uimD5AKmHLvRABLyApOhS6eT6aAPA4s",
+  authDomain:        "lsc-ux-requirements.firebaseapp.com",
+  databaseURL:       "https://lsc-ux-requirements-default-rtdb.firebaseio.com",
+  projectId:         "lsc-ux-requirements",
+  storageBucket:     "lsc-ux-requirements.firebasestorage.app",
+  messagingSenderId: "426995456207",
+  appId:             "1:426995456207:web:647a029e645bafe4d97fba"
+};
 
+firebase.initializeApp(firebaseConfig);
+const db      = firebase.database();
+const dataRef = db.ref('tableData');
+
+/* ═══════════════════════════════════════════
+   DATA  –  source: "UX Requirements" tab
+   INITIAL_DATA is the seed used on first run.
+   DATA is always loaded from / saved to Firebase.
+═══════════════════════════════════════════ */
 const INITIAL_DATA = [
   { requirement: "Branding customization", description: "Map JNJ branding elements: logo, and tokens: colors and icons", category: "App", solutionType: "OOTB Configuration", customLevel: "", release: "Post 0.5", priority: "Nice to have", scope: "Global", comments: "" },
   { requirement: "Overall Progress metrics", description: "Module configured for high level metrics of user / against plan", category: "Feature", solutionType: "Custom", customLevel: "TBD", release: "Post 0.5", priority: "Must have", scope: "Global", comments: "" },
@@ -77,20 +94,13 @@ const INITIAL_DATA = [
   { requirement: "Usability: NN/M - Touch Targets", description: "Touch target standards recommend a minimum physical size of 1cm × 1cm (0.4in × 0.4in) for comfortable use and to prevent tapping errors. Buttons should not overlap each other's touch target.", category: "", solutionType: "", customLevel: "TBD", release: "R0.5", priority: "Should have", scope: "Global", comments: "" }
 ];
 
-// Load persisted data or fall back to initial state
-function loadData() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) return JSON.parse(saved);
-  } catch(e) {}
-  return INITIAL_DATA.map(r => ({ ...r }));
-}
+// Live data array — populated from Firebase on startup
+const DATA = [];
 
+// Write current DATA to Firebase (called after every mutation)
 function saveData() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(DATA));
+  dataRef.set(DATA).catch(err => console.error('Firebase write failed:', err));
 }
-
-const DATA = loadData();
 
 /* ═══════════════════════════════════════════
    DROPDOWN CONFIG
@@ -761,7 +771,24 @@ function render() {
 }
 
 /* ═══════════════════════════════════════════
-   INIT
+   INIT – load data from Firebase then render
 ═══════════════════════════════════════════ */
-updateRecordCount();
-render();
+(async function init() {
+  try {
+    const snapshot = await dataRef.get();
+    if (snapshot.exists()) {
+      // Hydrate DATA from Firebase
+      const saved = snapshot.val();
+      if (Array.isArray(saved)) saved.forEach(r => DATA.push(r));
+    } else {
+      // First run: seed Firebase with INITIAL_DATA
+      INITIAL_DATA.forEach(r => DATA.push({ ...r }));
+      await dataRef.set(DATA);
+    }
+  } catch (err) {
+    console.warn('Firebase load failed, falling back to INITIAL_DATA:', err);
+    INITIAL_DATA.forEach(r => DATA.push({ ...r }));
+  }
+  updateRecordCount();
+  render();
+})();
