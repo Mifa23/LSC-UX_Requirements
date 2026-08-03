@@ -508,6 +508,7 @@ body {
   transition: border-color .2s, color .2s;
 }
 .clear-btn:hover { border-color: var(--jj-red); color: var(--jj-red); }
+.refresh-btn { display: inline-flex; align-items: center; gap: 5px; }
 
 
 .view-toggle {

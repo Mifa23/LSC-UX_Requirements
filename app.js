@@ -257,6 +257,26 @@ clearFiltersBtn.addEventListener('click', () => {
   filterRelease.value = '';
   applyFilters();
 });
+
+document.getElementById('refreshData').addEventListener('click', async () => {
+  const btn = document.getElementById('refreshData');
+  btn.disabled = true;
+  btn.style.opacity = '0.5';
+  try {
+    const snapshot = await dataRef.get();
+    if (snapshot.exists()) {
+      const saved = snapshot.val();
+      const rows  = Array.isArray(saved) ? saved : Object.values(saved);
+      DATA.length = 0;
+      rows.filter(Boolean).forEach(r => DATA.push(r));
+    }
+  } catch(err) {
+    console.error('Refresh failed:', err);
+  }
+  applyFilters();
+  btn.disabled = false;
+  btn.style.opacity = '';
+});
 filterCategory.addEventListener('change', applyFilters);
 filterPriority.addEventListener('change', applyFilters);
 filterRelease.addEventListener('change', applyFilters);
