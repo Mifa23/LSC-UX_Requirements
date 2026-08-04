@@ -743,14 +743,17 @@ function renderCards() {
     // Scope icon
     const scopeIcon = row.scope === 'Regional' ? ICON_PIN : ICON_GLOBE;
 
+    const cardId = `UXREQ_${String(idx + 1).padStart(3, '0')}`;
+
     return `
     <div class="req-card" data-idx="${idx}" style="cursor:pointer">
       <!-- top section -->
       <div class="card-body">
-        <div class="card-header">
-          <div class="card-title">${esc(row.requirement) || '<em style="color:var(--text-muted)">Untitled</em>'}</div>
-          ${row.priority ? priorityBadge(row.priority) : ''}
+        <div class="card-meta-row">
+          <span class="card-id">${cardId}</span>
+          ${row.priority ? priorityBadge(row.priority) : '<span></span>'}
         </div>
+        <div class="card-title">${esc(row.requirement) || '<em style="color:var(--text-muted)">Untitled</em>'}</div>
         <div class="card-field">
           <span class="card-field-label">Short Description</span>
           ${row.description ? `<span class="card-desc">${esc(row.description)}</span>` : ''}
