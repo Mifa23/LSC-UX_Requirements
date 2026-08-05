@@ -1341,6 +1341,15 @@ td.editable-select:hover .cell-caret { color: #EB1700; }
 }
 
 @media (max-width: 600px) {
+  /* Logo scales down → header height = 47px + 40px padding = 87px */
   .logo { width: 160px; height: 47px; }
+
+  /* Match subheader sticky offset to the new header height */
+  .subheader { top: 87px; }
+
+  /* Refresh: icon only, no label */
+  .refresh-label { display: none; }
+  .refresh-btn { padding: 5px 8px; }
+
   .subheader-center { gap: 8px; }
 }
