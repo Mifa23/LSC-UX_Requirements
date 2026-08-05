@@ -585,20 +585,13 @@ body {
 /* ═══════════════════════════════════════════
    MAIN CONTENT
 ═══════════════════════════════════════════ */
-.last-updated-bar {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 6px 24px;
-  background: var(--bg-body);
-  border-bottom: 1px solid var(--border);
-  transition: background .25s, border-color .25s;
-}
-#lastUpdatedText {
+.subheader-timestamp {
+  margin-left: auto;
   font-size: 11px;
   color: var(--text-muted);
   font-style: italic;
   letter-spacing: .01em;
+  white-space: nowrap;
 }
 
 .main-content {
