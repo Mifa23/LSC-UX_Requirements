@@ -59,8 +59,29 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const db      = firebase.database();
-const dataRef = db.ref('tableData');
+const db          = firebase.database();
+const dataRef     = db.ref('tableData');
+const tsRef       = db.ref('lastUpdated');
+
+/* ── Relative-time display ── */
+let lastUpdatedMs = null;
+
+function relativeTime(ms) {
+  const diff = Math.floor((Date.now() - ms) / 1000); // seconds
+  if (diff < 60)                          return 'Updated just now';
+  if (diff < 3600)  { const m = Math.floor(diff / 60);   return `Updated ${m} min${m > 1 ? 's' : ''} ago`; }
+  if (diff < 86400) { const h = Math.floor(diff / 3600);  return `Updated ${h} hour${h > 1 ? 's' : ''} ago`; }
+  const d = Math.floor(diff / 86400); return `Updated ${d} day${d > 1 ? 's' : ''} ago`;
+}
+
+function renderTimestamp() {
+  const el = document.getElementById('lastUpdatedText');
+  if (!el) return;
+  el.textContent = lastUpdatedMs ? relativeTime(lastUpdatedMs) : '—';
+}
+
+// Re-render the relative label every 30 s so it stays accurate
+setInterval(renderTimestamp, 30_000);
 
 /* ═══════════════════════════════════════════
    DATA  –  source: "UX Requirements" tab
@@ -97,9 +118,12 @@ const INITIAL_DATA = [
 // Live data array — populated from Firebase on startup
 const DATA = [];
 
-// Write current DATA to Firebase (called after every mutation)
+// Write current DATA + timestamp to Firebase (called after every mutation)
 function saveData() {
+  const now = Date.now();
   dataRef.set(DATA).catch(err => console.error('Firebase write failed:', err));
+  tsRef.set(now).then(() => { lastUpdatedMs = now; renderTimestamp(); })
+       .catch(err => console.error('Timestamp write failed:', err));
 }
 
 /* ═══════════════════════════════════════════
@@ -815,6 +839,13 @@ function render() {
     console.warn('Firebase load failed, falling back to INITIAL_DATA:', err);
     INITIAL_DATA.forEach(r => DATA.push({ ...r }));
   }
+  // Load last-updated timestamp
+  try {
+    const tsSnap = await tsRef.get();
+    if (tsSnap.exists()) { lastUpdatedMs = tsSnap.val(); }
+  } catch(e) {}
+  renderTimestamp();
+
   // applyFilters rebuilds filteredData from DATA before rendering
   applyFilters();
 })();
