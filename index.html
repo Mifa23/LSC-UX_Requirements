@@ -241,6 +241,13 @@
               <button class="modal-pill badge-cat-feature" data-value="Feature">Feature</button>
               <button class="modal-pill badge-cat-agent"   data-value="Agentforce">Agentforce</button>
             </div>
+            <select id="mCategorySelect" class="modal-select modal-select-mobile">
+              <option value="">— Select —</option>
+              <option value="App">App</option>
+              <option value="Flow">Flow</option>
+              <option value="Feature">Feature</option>
+              <option value="Agentforce">Agentforce</option>
+            </select>
           </div>
           <div class="modal-field">
             <label class="modal-label">Priority <span class="modal-required">*</span></label>
@@ -249,6 +256,12 @@
               <button class="modal-pill badge-should" data-value="Should have">Should have</button>
               <button class="modal-pill badge-nice"   data-value="Nice to have">Nice to have</button>
             </div>
+            <select id="mPrioritySelect" class="modal-select modal-select-mobile">
+              <option value="">— Select —</option>
+              <option value="Must have">Must have</option>
+              <option value="Should have">Should have</option>
+              <option value="Nice to have">Nice to have</option>
+            </select>
             <span class="modal-error hidden" id="errPriority">Please select a priority.</span>
           </div>
         </div>
@@ -319,6 +332,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
-  <script src="app.js?v=15"></script>
+  <script src="app.js?v=16"></script>
 </body>
 </html>

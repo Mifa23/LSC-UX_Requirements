@@ -1197,6 +1197,9 @@ td.editable-select:hover .cell-caret { color: #EB1700; }
 
 .modal-input,
 .modal-textarea,
+/* Hidden on desktop, revealed on mobile via media query */
+.modal-select-mobile { display: none; }
+
 .modal-select {
   background: var(--input-bg);
   border: 1.5px solid var(--input-border);
@@ -1367,6 +1370,10 @@ td.editable-select:hover .cell-caret { color: #EB1700; }
 
   /* Timestamp padding adjustment on mobile */
   .subheader-timestamp { padding-bottom: 2px; }
+
+  /* Modal: swap pills → dropdown on mobile */
+  .modal-pills        { display: none !important; }
+  .modal-select-mobile { display: block; }
 
   .subheader-center { gap: 8px; }
 }

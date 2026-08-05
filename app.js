@@ -400,6 +400,9 @@ function setPillSelection(groupId, value) {
   document.querySelectorAll(`#${groupId} .modal-pill`).forEach(pill => {
     pill.classList.toggle('selected', pill.dataset.value === value);
   });
+  // keep mobile select in sync
+  const sel = document.getElementById(groupId + 'Select');
+  if (sel) sel.value = value || '';
 }
 
 function getSelectedPill(groupId) {
@@ -415,6 +418,25 @@ document.querySelectorAll('.modal-pills').forEach(group => {
     const alreadySelected = pill.classList.contains('selected');
     group.querySelectorAll('.modal-pill').forEach(p => p.classList.remove('selected'));
     if (!alreadySelected) pill.classList.add('selected');
+    // keep mobile select in sync
+    const sel = document.getElementById(group.id + 'Select');
+    if (sel) sel.value = alreadySelected ? '' : pill.dataset.value;
+  });
+});
+
+// mobile select → sync pills
+['mCategorySelect', 'mPrioritySelect'].forEach(selId => {
+  const sel = document.getElementById(selId);
+  if (!sel) return;
+  sel.addEventListener('change', () => {
+    const groupId = selId.replace('Select', '');
+    setPillSelection(groupId, sel.value);
+    // clear priority error when a value is chosen
+    if (groupId === 'mPriority') {
+      document.getElementById('mPriority').classList.remove('invalid');
+      sel.classList.remove('invalid');
+      document.getElementById('errPriority').classList.add('hidden');
+    }
   });
 });
 
@@ -442,6 +464,7 @@ modalSave.addEventListener('click', () => {
   // validate required: Priority
   if (!getSelectedPill('mPriority')) {
     document.getElementById('mPriority').classList.add('invalid');
+    document.getElementById('mPrioritySelect').classList.add('invalid');
     document.getElementById('errPriority').classList.remove('hidden');
     valid = false;
   }
