@@ -1355,6 +1355,10 @@ td.editable-select:hover .cell-caret { color: #EB1700; }
   #clearFilters { margin-left: 0; }
   .main-content { padding: 16px; }
   .card-grid { grid-template-columns: 1fr; }
+
+  /* Modal: hide pills, show dropdown for Category & Priority */
+  .modal-pills         { display: none !important; }
+  .modal-select-mobile { display: block; }
 }
 
 @media (max-width: 600px) {
@@ -1371,9 +1375,6 @@ td.editable-select:hover .cell-caret { color: #EB1700; }
   /* Timestamp padding adjustment on mobile */
   .subheader-timestamp { padding-bottom: 2px; }
 
-  /* Modal: swap pills → dropdown on mobile */
-  .modal-pills        { display: none !important; }
-  .modal-select-mobile { display: block; }
 
   .subheader-center { gap: 8px; }
 }
