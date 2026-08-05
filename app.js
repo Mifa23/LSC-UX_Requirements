@@ -375,23 +375,16 @@ window.voiceAvailable = false; // table cells check this before adding mic btn
                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const useContinuous = !isIOS;
 
-  let activeBtn      = null;
-  let activeTarget   = null;
-  let activeRec      = null;
-  let shouldListen   = false;
-  let interimSpan    = null;
-
-  function clearInterim() {
-    if (interimSpan) { interimSpan.remove(); interimSpan = null; }
-  }
+  let activeBtn    = null;
+  let activeTarget = null;
+  let activeRec    = null;
+  let shouldListen = false;
 
   function stopListening() {
     shouldListen = false;
     if (activeRec) { try { activeRec.stop(); } catch(_) {} activeRec = null; }
     if (activeBtn) { activeBtn.classList.remove('mic-listening'); activeBtn = null; }
     activeTarget = null;
-    clearInterim();
-    document.querySelectorAll('.mic-interim').forEach(el => el.remove());
   }
 
   function startRecognition() {
@@ -400,33 +393,28 @@ window.voiceAvailable = false; // table cells check this before adding mic btn
     const rec = new SR();
     activeRec = rec;
     rec.lang = 'en-US';
-    rec.continuous     = useContinuous;  // true on Android/Desktop, false on iOS
-    rec.interimResults = true;
+    rec.continuous     = useContinuous;
+    rec.interimResults = false; // final-only: prevents duplicate appends on Android
+
+    // Track the highest result index we've already written to avoid re-processing
+    let processedUpTo = -1;
 
     rec.onresult = function(event) {
-      let interim = '', final = '';
       for (let i = event.resultIndex; i < event.results.length; i++) {
-        if (event.results[i].isFinal) final += event.results[i][0].transcript;
-        else interim += event.results[i][0].transcript;
-      }
-      if (final) {
+        if (!event.results[i].isFinal) continue; // skip interim
+        if (i <= processedUpTo) continue;         // skip already-appended
+        processedUpTo = i;
+
+        const transcript = event.results[i][0].transcript.trim();
+        if (!transcript) continue;
+
         const sep = activeTarget.value && !activeTarget.value.endsWith(' ') ? ' ' : '';
-        activeTarget.value += sep + final.trim();
+        activeTarget.value += sep + transcript;
         activeTarget.dispatchEvent(new Event('input'));
-        clearInterim();
-      }
-      if (interim) {
-        if (!interimSpan) {
-          interimSpan = document.createElement('span');
-          interimSpan.className = 'mic-interim';
-          activeTarget.parentNode.insertBefore(interimSpan, activeTarget.nextSibling);
-        }
-        interimSpan.textContent = interim;
       }
     };
 
     rec.onerror = function(ev) {
-      clearInterim();
       if (ev.error === 'not-allowed') {
         alert('Microphone access was denied.\nPlease allow microphone in your browser settings and try again.');
         stopListening(); return;
@@ -435,18 +423,17 @@ window.voiceAvailable = false; // table cells check this before adding mic btn
         alert('Voice input needs an internet connection to work.');
         stopListening(); return;
       }
-      // no-speech / aborted are non-fatal — just let onend restart if needed
       if (ev.error !== 'no-speech' && ev.error !== 'aborted') {
         console.warn('Speech recognition error:', ev.error);
       }
     };
 
     rec.onend = function() {
-      clearInterim();
       activeRec = null;
-      // iOS fires onend after every utterance — restart to keep listening
-      // On Android/Desktop with continuous=true this only fires when we stop() manually
+      // iOS fires onend after every utterance — restart automatically
       if (shouldListen && !useContinuous) setTimeout(startRecognition, 80);
+      // On Android/Desktop continuous=true, onend only fires when stop() is called
+      else if (!shouldListen) stopListening();
     };
 
     try { rec.start(); } catch(e) { console.warn('Could not start recognition:', e); }
