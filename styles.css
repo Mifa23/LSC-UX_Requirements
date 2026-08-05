@@ -1350,5 +1350,13 @@ td.editable-select:hover .cell-caret { color: #EB1700; }
   .refresh-label { display: none; }
   .refresh-btn { padding: 5px 8px; }
 
+  /* Timestamp drops to its own line below Table/Grid + Export */
+  .subheader-row-2 { flex-wrap: wrap; }
+  .subheader-timestamp {
+    width: 100%;
+    margin-left: 0;
+    padding-bottom: 4px;
+  }
+
   .subheader-center { gap: 8px; }
 }
