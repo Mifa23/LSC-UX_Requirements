@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>J&J LSC – Experience Requirements</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=21" />
 </head>
 <body>
 
@@ -220,14 +223,24 @@
 
         <!-- Requirement -->
         <div class="modal-field">
-          <label class="modal-label" for="mReq">Requirement <span class="modal-required">*</span></label>
+          <div class="modal-field-header">
+            <label class="modal-label" for="mReq">Requirement <span class="modal-required">*</span></label>
+            <button type="button" class="mic-btn" data-target="mReq" title="Speak to fill this field" aria-label="Voice input for Requirement">
+              <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            </button>
+          </div>
           <input type="text" id="mReq" class="modal-input" placeholder="Enter requirement…" />
           <span class="modal-error hidden" id="errReq">Requirement is required.</span>
         </div>
 
         <!-- Short Description -->
         <div class="modal-field">
-          <label class="modal-label" for="mDesc">Short Description</label>
+          <div class="modal-field-header">
+            <label class="modal-label" for="mDesc">Short Description</label>
+            <button type="button" class="mic-btn" data-target="mDesc" title="Speak to fill this field" aria-label="Voice input for Short Description">
+              <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            </button>
+          </div>
           <textarea id="mDesc" class="modal-textarea" rows="3" placeholder="Describe the requirement…"></textarea>
         </div>
 
@@ -266,28 +279,28 @@
           </div>
         </div>
 
-        <!-- Row: Solution Type + Customization Level -->
-        <div class="modal-row">
-          <div class="modal-field">
-            <label class="modal-label" for="mSolution">Solution Type</label>
-            <select id="mSolution" class="modal-select">
-              <option value="">— Select —</option>
-              <option>OOTB Configuration</option>
-              <option>Custom</option>
-              <option>Undefined</option>
-            </select>
-          </div>
-          <div class="modal-field">
-            <label class="modal-label" for="mCustom">Customization Level</label>
-            <select id="mCustom" class="modal-select">
-              <option value="">— Select —</option>
-              <option>Very High</option>
-              <option>High</option>
-              <option>Medium</option>
-              <option>Low</option>
-              <option>TBD</option>
-            </select>
-          </div>
+        <!-- Solution Type – full width -->
+        <div class="modal-field">
+          <label class="modal-label" for="mSolution">Solution Type</label>
+          <select id="mSolution" class="modal-select">
+            <option value="">— Select —</option>
+            <option>OOTB Configuration</option>
+            <option>Custom</option>
+            <option>Undefined</option>
+          </select>
+        </div>
+
+        <!-- Customization Level – full width -->
+        <div class="modal-field">
+          <label class="modal-label" for="mCustom">Customization Level</label>
+          <select id="mCustom" class="modal-select">
+            <option value="">— Select —</option>
+            <option>Very High</option>
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+            <option>TBD</option>
+          </select>
         </div>
 
         <!-- Row: Release Needed + Scope -->
@@ -312,7 +325,12 @@
 
         <!-- Additional Comments -->
         <div class="modal-field">
-          <label class="modal-label" for="mComments">Additional Comments</label>
+          <div class="modal-field-header">
+            <label class="modal-label" for="mComments">Additional Comments</label>
+            <button type="button" class="mic-btn" data-target="mComments" title="Speak to fill this field" aria-label="Voice input for Additional Comments">
+              <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            </button>
+          </div>
           <textarea id="mComments" class="modal-textarea" rows="2" placeholder="Any additional notes…"></textarea>
         </div>
 
@@ -332,6 +350,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
-  <script src="app.js?v=18"></script>
+  <script src="app.js?v=22"></script>
 </body>
 </html>

@@ -350,6 +350,130 @@ document.getElementById('exportCsvBtn').addEventListener('click', () => {
 ═══════════════════════════════════════════ */
 let modalEditIdx = null; // null = new row
 
+/* ── Voice-to-text (Web Speech API) ────────────────────────────── */
+(function initVoiceInput() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return;
+
+  // Mic requires a secure context. On mobile, HTTP IP addresses are blocked.
+  // Localhost/127.0.0.1 are treated as secure by browsers even over HTTP.
+  const isSecure = location.protocol === 'https:' ||
+                   location.hostname === 'localhost' ||
+                   location.hostname === '127.0.0.1';
+  if (!isSecure) {
+    console.warn('Voice input requires HTTPS on non-localhost. Mic buttons hidden.');
+    return;
+  }
+
+  // iOS Safari does not support continuous=true — it stops after each utterance.
+  // All other platforms (Android Chrome, Desktop Chrome/Edge/Safari) support it.
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const useContinuous = !isIOS;
+
+  let activeBtn      = null;
+  let activeTarget   = null;
+  let activeRec      = null;
+  let shouldListen   = false;
+  let interimSpan    = null;
+
+  function clearInterim() {
+    if (interimSpan) { interimSpan.remove(); interimSpan = null; }
+  }
+
+  function stopListening() {
+    shouldListen = false;
+    if (activeRec) { try { activeRec.stop(); } catch(_) {} activeRec = null; }
+    if (activeBtn) { activeBtn.classList.remove('mic-listening'); activeBtn = null; }
+    activeTarget = null;
+    clearInterim();
+    document.querySelectorAll('.mic-interim').forEach(el => el.remove());
+  }
+
+  function startRecognition() {
+    if (!shouldListen || !activeTarget) return;
+
+    const rec = new SR();
+    activeRec = rec;
+    rec.lang = 'en-US';
+    rec.continuous     = useContinuous;  // true on Android/Desktop, false on iOS
+    rec.interimResults = true;
+
+    rec.onresult = function(event) {
+      let interim = '', final = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        if (event.results[i].isFinal) final += event.results[i][0].transcript;
+        else interim += event.results[i][0].transcript;
+      }
+      if (final) {
+        const sep = activeTarget.value && !activeTarget.value.endsWith(' ') ? ' ' : '';
+        activeTarget.value += sep + final.trim();
+        activeTarget.dispatchEvent(new Event('input'));
+        clearInterim();
+      }
+      if (interim) {
+        if (!interimSpan) {
+          interimSpan = document.createElement('span');
+          interimSpan.className = 'mic-interim';
+          activeTarget.parentNode.insertBefore(interimSpan, activeTarget.nextSibling);
+        }
+        interimSpan.textContent = interim;
+      }
+    };
+
+    rec.onerror = function(ev) {
+      clearInterim();
+      if (ev.error === 'not-allowed') {
+        alert('Microphone access was denied.\nPlease allow microphone in your browser settings and try again.');
+        stopListening(); return;
+      }
+      if (ev.error === 'network') {
+        alert('Voice input needs an internet connection to work.');
+        stopListening(); return;
+      }
+      // no-speech / aborted are non-fatal — just let onend restart if needed
+      if (ev.error !== 'no-speech' && ev.error !== 'aborted') {
+        console.warn('Speech recognition error:', ev.error);
+      }
+    };
+
+    rec.onend = function() {
+      clearInterim();
+      activeRec = null;
+      // iOS fires onend after every utterance — restart to keep listening
+      // On Android/Desktop with continuous=true this only fires when we stop() manually
+      if (shouldListen && !useContinuous) setTimeout(startRecognition, 80);
+    };
+
+    try { rec.start(); } catch(e) { console.warn('Could not start recognition:', e); }
+  }
+
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.mic-btn');
+    if (!btn) return;
+
+    if (btn === activeBtn) { stopListening(); return; }
+
+    stopListening();
+
+    const targetEl = document.getElementById(btn.dataset.target);
+    if (!targetEl) return;
+
+    activeBtn    = btn;
+    activeTarget = targetEl;
+    shouldListen = true;
+    btn.classList.add('mic-listening');
+    targetEl.focus();
+    startRecognition();
+  });
+
+  // Stop when modal closes
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('#modalClose') || e.target.closest('#modalCancel') ||
+        e.target.id === 'modalBackdrop') stopListening();
+  });
+})();
+
 const backdrop    = document.getElementById('modalBackdrop');
 const modalTitle  = document.getElementById('modalTitle');
 const modalClose  = document.getElementById('modalClose');

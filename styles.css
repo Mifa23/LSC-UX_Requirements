@@ -1187,6 +1187,50 @@ td.editable-select:hover .cell-caret { color: #EB1700; }
   gap: 6px;
 }
 
+/* Label row: label on left, mic button on right */
+.modal-field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Mic button */
+.mic-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 2px 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: color .15s, background .15s;
+  flex-shrink: 0;
+}
+.mic-btn:hover { color: var(--jj-red); background: rgba(235,23,0,.07); }
+.mic-btn .mic-icon { width: 15px; height: 15px; }
+
+/* Listening state */
+.mic-btn.mic-listening {
+  color: var(--jj-red);
+  animation: micPulse 1s ease-in-out infinite;
+}
+@keyframes micPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .4; }
+}
+
+/* Live interim transcript preview */
+.mic-interim {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 2px;
+  min-height: 16px;
+}
+
 .modal-label {
   font-size: 11px;
   font-weight: 700;
@@ -1195,10 +1239,25 @@ td.editable-select:hover .cell-caret { color: #EB1700; }
   color: var(--text-muted);
 }
 
-.modal-input,
-.modal-textarea,
-/* Hidden on desktop, revealed on mobile via media query */
+/* Hidden on desktop; shown on mobile via JS in openModal() */
 .modal-select-mobile { display: none; }
+
+.modal-input,
+.modal-textarea {
+  display: block;
+  background: var(--input-bg);
+  border: 1.5px solid var(--input-border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 13.5px;
+  padding: 9px 12px;
+  min-height: 40px;
+  transition: border-color .15s, box-shadow .15s;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
 
 .modal-select {
   background: var(--input-bg);
