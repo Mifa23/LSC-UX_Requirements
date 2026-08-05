@@ -507,6 +507,8 @@ body {
   align-self: flex-end;
   transition: border-color .2s, color .2s;
 }
+/* Push Clear (and Refresh after it) to the far-right of the filter row */
+#clearFilters { margin-left: auto; }
 .clear-btn:hover { border-color: var(--jj-red); color: var(--jj-red); }
 .refresh-btn { display: inline-flex; align-items: center; gap: 5px; }
 
