@@ -815,6 +815,28 @@ td.editable:hover::after {
 }
 
 /* inline textarea for text cells */
+.cell-edit-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* mic button pinned to top-right inside the cell edit area */
+.cell-mic-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 2;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 5px;
+  opacity: .7;
+}
+.cell-mic-btn:hover { opacity: 1; }
+.cell-mic-btn .mic-icon { width: 13px; height: 13px; }
+
 .cell-textarea {
   width: 100%;
   min-width: 160px;
@@ -826,7 +848,7 @@ td.editable:hover::after {
   font-family: inherit;
   font-size: 13px;
   line-height: 1.5;
-  padding: 6px 8px;
+  padding: 6px 34px 6px 8px; /* right padding leaves room for mic btn */
   resize: vertical;
   outline: none;
   box-shadow: 0 0 0 3px rgba(235,23,0,.12);

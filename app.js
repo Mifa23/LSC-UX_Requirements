@@ -351,6 +351,8 @@ document.getElementById('exportCsvBtn').addEventListener('click', () => {
 let modalEditIdx = null; // null = new row
 
 /* ── Voice-to-text (Web Speech API) ────────────────────────────── */
+window.voiceAvailable = false; // table cells check this before adding mic btn
+
 (function initVoiceInput() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) return;
@@ -364,6 +366,8 @@ let modalEditIdx = null; // null = new row
     console.warn('Voice input requires HTTPS on non-localhost. Mic buttons hidden.');
     return;
   }
+
+  window.voiceAvailable = true; // signal to table cell editor
 
   // iOS Safari does not support continuous=true — it stops after each utterance.
   // All other platforms (Android Chrome, Desktop Chrome/Edge/Safari) support it.
@@ -760,6 +764,8 @@ function initDragAndDrop(tbody) {
 /* ═══════════════════════════════════════════
    INLINE TEXT EDITING
 ═══════════════════════════════════════════ */
+const MIC_SVG = `<svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>`;
+
 function onTextCellClick(e) {
   const td = e.currentTarget;
   if (td.querySelector('textarea')) return; // already editing
@@ -774,9 +780,31 @@ function onTextCellClick(e) {
   ta.className = 'cell-textarea';
   ta.value = cur;
   ta.rows = 3;
+  // Give it a unique ID so the voice engine can find it via data-target
+  ta.id = `cell-ta-${idx}-${field}`;
 
   td.innerHTML = '';
-  td.appendChild(ta);
+
+  // Add mic button on top-right of cell when voice is supported
+  if (window.voiceAvailable) {
+    const wrap = document.createElement('div');
+    wrap.className = 'cell-edit-wrap';
+
+    const micBtn = document.createElement('button');
+    micBtn.type = 'button';
+    micBtn.className = 'mic-btn cell-mic-btn';
+    micBtn.dataset.target = ta.id;
+    micBtn.title = 'Speak to fill this field';
+    micBtn.setAttribute('aria-label', 'Voice input');
+    micBtn.innerHTML = MIC_SVG;
+
+    wrap.appendChild(ta);
+    wrap.appendChild(micBtn);
+    td.appendChild(wrap);
+  } else {
+    td.appendChild(ta);
+  }
+
   ta.focus();
   ta.setSelectionRange(ta.value.length, ta.value.length);
 
