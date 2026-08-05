@@ -378,9 +378,18 @@ function openModal(row, idx) {
   mScope.value    = r.scope        || '';
   mComments.value = r.comments     || '';
 
-  // set pill selections
+  // set pill selections (also syncs mobile selects via setPillSelection)
   setPillSelection('mCategory', r.category || '');
   setPillSelection('mPriority',  r.priority  || '');
+
+  // On mobile: hide pills, show select dropdowns
+  const isMobile = window.innerWidth <= 900;
+  document.querySelectorAll('.modal-pills').forEach(el => {
+    el.style.display = isMobile ? 'none' : '';
+  });
+  document.querySelectorAll('.modal-select-mobile').forEach(el => {
+    el.style.display = isMobile ? 'block' : 'none';
+  });
 
   // clear any previous validation state
   document.querySelectorAll('.modal-error').forEach(el => el.classList.add('hidden'));
