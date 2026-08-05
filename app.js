@@ -813,9 +813,21 @@ function onTextCellClick(e) {
     saveData();
     applyFilters();
   }
-  ta.addEventListener('blur', save, { once: true });
+
+  // Use a delayed save so iOS keyboard-mic dictation survives the transient blur.
+  // When the keyboard mic is tapped, iOS fires blur → dictation starts → focus returns.
+  // If focus comes back within 800ms we cancel the save and keep the textarea alive.
+  let saveTimer = null;
+  ta.addEventListener('blur', function() {
+    saveTimer = setTimeout(save, 800);
+  });
+  ta.addEventListener('focus', function() {
+    clearTimeout(saveTimer);
+  });
+
   ta.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { ta.value = cur; ta.blur(); }
+    if (e.key === 'Escape') { clearTimeout(saveTimer); ta.value = cur; ta.blur(); }
+    if (e.key === 'Enter' && !e.shiftKey) { clearTimeout(saveTimer); save(); }
     e.stopPropagation();
   });
 }
