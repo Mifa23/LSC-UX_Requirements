@@ -281,6 +281,28 @@ body {
   flex-shrink: 0;
 }
 
+.header-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .2px;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .header-title { font-size: 15px; }
+}
+
 .header-right {
   display: flex;
   align-items: center;
