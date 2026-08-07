@@ -257,7 +257,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--jj-red);
+  background: #E8EAED;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -291,7 +291,7 @@ body {
 .header-title {
   font-size: 28px;
   font-weight: 700;
-  color: #fff;
+  color: #1A1A1A;
   letter-spacing: .2px;
   margin: 0;
   text-align: center;
@@ -349,7 +349,7 @@ body {
 }
 
 .toggle-label {
-  color: rgba(255,255,255,.9);
+  color: #1A1A1A;
   font-size: 12.5px;
   font-weight: 600;
   letter-spacing: .2px;
@@ -368,7 +368,7 @@ body {
   font-size: 9px;
   font-weight: 700;
   letter-spacing: .6px;
-  color: rgba(255,255,255,.7);
+  color: #666;
   line-height: 1;
 }
 
@@ -387,8 +387,14 @@ body {
   inset: 0;
   background: var(--toggle-track);
   border-radius: 999px;
-  border: 1.5px solid rgba(255,255,255,.4);
-  transition: background .25s;
+  border: 1.5px solid #fff;
+  transition: background .25s, border-color .2s;
+}
+
+/* Hover on either state → red border */
+.toggle-switch:hover .toggle-slider,
+.toggle-switch:hover input:checked + .toggle-slider {
+  border-color: var(--jj-red);
 }
 
 /* thumb with moon icon embedded */
@@ -409,7 +415,7 @@ body {
 /* ON state — dark mode active: deep slate track, sun icon in thumb */
 .toggle-switch input:checked + .toggle-slider {
   background: #0F172A;
-  border-color: #0F172A;
+  border-color: #fff;
 }
 
 .toggle-switch input:checked + .toggle-slider::before {
@@ -517,6 +523,7 @@ body {
   background-position: right 6px center;
   transition: border-color .2s, background .25s;
 }
+.filter-select:hover { border-color: var(--jj-red); color: var(--jj-red); }
 .filter-select:focus { outline: 2px solid var(--jj-red); outline-offset: 1px; }
 
 .clear-btn {
@@ -559,7 +566,8 @@ body {
   transition: background .2s, color .2s;
 }
 .view-btn + .view-btn { border-left: 1px solid var(--border); }
-.view-btn:hover { background: var(--bg-body); color: var(--text-primary); }
+.view-btn:not(.active):hover { background: var(--bg-body); color: var(--jj-red); }
+.view-toggle:has(.view-btn:not(.active):hover) { border-color: var(--jj-red); }
 .view-btn.active { background: var(--jj-red); color: #fff; }
 
 .export-btn {
@@ -632,7 +640,10 @@ body {
   text-transform: uppercase;
   letter-spacing: .6px;
   color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
 }
+.stats-bar-label:hover { color: var(--jj-red); }
 
 .stats-toggle {
   background: none;
@@ -670,8 +681,8 @@ body {
 .stats-bar.collapsed .stats-header { padding-bottom: 10px; }
 
 .stat-card {
-  background: var(--bg-body);
-  border: 1px solid var(--border);
+  background: transparent;
+  border: 1px solid #60A5FA;
   border-radius: 12px;
   padding: 16px 12px 14px;
   display: flex;
@@ -771,6 +782,21 @@ th.sorted-desc .sort-icon::after { content: ' ▼'; }
 th.sorted-asc .sort-icon, th.sorted-desc .sort-icon { opacity: 1; color: #EB1700; }
 
 /* ── Dark mode: deep navy BG, bright slate text ── */
+/* Dark mode header inversion */
+[data-theme="dark"] .site-header {
+  background: #12141C;
+  border-bottom: 1px solid #2D3042;
+}
+[data-theme="dark"] .header-title {
+  color: #F1F5F9;
+}
+[data-theme="dark"] .toggle-label {
+  color: rgba(241,245,249,.9);
+}
+[data-theme="dark"] .toggle-state-label {
+  color: rgba(241,245,249,.6);
+}
+
 [data-theme="dark"] thead {
   background: #1E3A5F;
   border-bottom: 3px solid #0F2440;
