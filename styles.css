@@ -425,7 +425,6 @@ body {
   top: 97px;
   z-index: 90;
   background: var(--bg-subheader);
-  border-bottom: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   padding: 0 24px;
@@ -460,9 +459,9 @@ body {
   margin-left: auto;
 }
 
-/* Slim timestamp row below the main toolbar */
-.subheader-timestamp-row {
-  padding: 0 0 6px;
+/* Timestamp row between stats bar and table */
+.content-timestamp-row {
+  padding: 6px 24px 4px;
 }
 
 .page-title {
