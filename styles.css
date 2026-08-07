@@ -686,8 +686,8 @@ body {
   line-height: 1;
   letter-spacing: -1px;
 }
-/* Stat numbers match table column header background */
-.stat-num-1, .stat-num-2, .stat-num-3, .stat-num-4 { color: #0F172A; }
+/* Stat numbers */
+.stat-num-1, .stat-num-2, .stat-num-3, .stat-num-4 { color: #4CBFFF; }
 
 .stat-label {
   font-size: 12px;
