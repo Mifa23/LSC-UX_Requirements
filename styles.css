@@ -429,7 +429,6 @@ body {
   display: flex;
   flex-direction: column;
   padding: 0 24px;
-  box-shadow: var(--shadow-sm);
   transition: background .25s, border-color .25s;
   width: 100%;
   box-sizing: border-box;
@@ -687,8 +686,8 @@ body {
   line-height: 1;
   letter-spacing: -1px;
 }
-/* Uniform pale blue for all stat numbers */
-.stat-num-1, .stat-num-2, .stat-num-3, .stat-num-4 { color: #60A5FA; }
+/* Stat numbers match table column header background */
+.stat-num-1, .stat-num-2, .stat-num-3, .stat-num-4 { color: #0F172A; }
 
 .stat-label {
   font-size: 12px;
