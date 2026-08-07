@@ -651,7 +651,7 @@ body {
 /* Cards grid */
 .stats-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   overflow: hidden;
   max-height: 140px;
@@ -685,9 +685,13 @@ body {
   font-size: 40px;
   font-weight: 800;
   line-height: 1;
-  color: var(--jj-red);
   letter-spacing: -1px;
 }
+/* Pale blue set — each card a distinct shade */
+.stat-num-1 { color: #93C5FD; }  /* blue-300 */
+.stat-num-2 { color: #60A5FA; }  /* blue-400 */
+.stat-num-3 { color: #3B82F6; }  /* blue-500 */
+.stat-num-4 { color: #BFDBFE; }  /* blue-200 — lightest for Undefined */
 
 .stat-label {
   font-size: 12px;

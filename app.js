@@ -143,7 +143,7 @@ const FIELD_CONFIG = {
   solutionType: {
     type: 'list',
     label: 'Solution Type',
-    options: ['Configuration', 'Customization', 'Product']
+    options: ['Configuration', 'Customization', 'Product', 'Undefined']
   },
   customLevel: {
     type: 'list',
@@ -275,11 +275,12 @@ function applyFilters() {
 }
 
 function updateStats() {
-  const counts = { Configuration: 0, Customization: 0, Product: 0 };
+  const counts = { Configuration: 0, Customization: 0, Product: 0, Undefined: 0 };
   DATA.forEach(r => { if (counts.hasOwnProperty(r.solutionType)) counts[r.solutionType]++; });
   document.getElementById('statConfiguration').textContent = counts.Configuration;
   document.getElementById('statCustomization').textContent = counts.Customization;
   document.getElementById('statProduct').textContent       = counts.Product;
+  document.getElementById('statUndefined').textContent     = counts.Undefined;
 }
 
 // Collapsible stats bar
