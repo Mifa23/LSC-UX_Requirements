@@ -1437,9 +1437,26 @@ td.editable-select:hover .cell-caret { color: #EB1700; }
    RESPONSIVE
 ═══════════════════════════════════════════ */
 @media (max-width: 900px) {
-  .subheader-row-1 { flex-direction: column; align-items: flex-start; }
-  .subheader-filters { width: 100%; }
-  .subheader-controls { margin-left: 0; }
+  /* Stack the two groups vertically — controls first, then filters */
+  .subheader-row-1 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  /* Group 1: Table/Grid + Export — full width, displayed first via order */
+  .subheader-controls {
+    order: -1;          /* appears above filters on mobile */
+    margin-left: 0;
+    width: 100%;
+  }
+
+  /* Group 2: Filters — full width below */
+  .subheader-filters {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
   #clearFilters { margin-left: 0; }
   .main-content { padding: 16px; }
   .card-grid { grid-template-columns: 1fr; }
