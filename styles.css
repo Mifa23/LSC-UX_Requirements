@@ -610,6 +610,93 @@ body {
 .fab:active { transform: translateY(0); }
 
 /* ═══════════════════════════════════════════
+   STATS SUMMARY BAR
+═══════════════════════════════════════════ */
+.stats-bar {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  transition: background .25s, border-color .25s;
+}
+
+.stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 0;
+}
+
+.stats-bar-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--text-muted);
+}
+
+.stats-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 4px 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: color .15s, background .15s;
+}
+.stats-toggle:hover { color: var(--jj-red); background: rgba(235,23,0,.07); }
+.stats-toggle svg { transition: transform .25s ease; }
+
+/* Cards grid */
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  overflow: hidden;
+  max-height: 140px;
+  opacity: 1;
+  padding: 12px 0 16px;
+  transition: max-height .3s ease, opacity .25s ease, padding .3s ease;
+}
+
+/* Collapsed state */
+.stats-bar.collapsed .stats-cards {
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+}
+.stats-bar.collapsed .stats-toggle svg { transform: rotate(180deg); }
+.stats-bar.collapsed .stats-header { padding-bottom: 10px; }
+
+.stat-card {
+  background: var(--bg-body);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: background .25s, border-color .25s;
+}
+
+.stat-number {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--jj-red);
+  letter-spacing: -1px;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════
    MAIN CONTENT
 ═══════════════════════════════════════════ */
 .subheader-timestamp {

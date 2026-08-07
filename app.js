@@ -270,8 +270,22 @@ function applyFilters() {
   });
   if (sortCol >= 0) applySort(false);
   updateRecordCount();
+  updateStats();
   render();
 }
+
+function updateStats() {
+  const counts = { Configuration: 0, Customization: 0, Product: 0 };
+  DATA.forEach(r => { if (counts.hasOwnProperty(r.solutionType)) counts[r.solutionType]++; });
+  document.getElementById('statConfiguration').textContent = counts.Configuration;
+  document.getElementById('statCustomization').textContent = counts.Customization;
+  document.getElementById('statProduct').textContent       = counts.Product;
+}
+
+// Collapsible stats bar
+document.getElementById('statsToggle').addEventListener('click', () => {
+  document.getElementById('statsBar').classList.toggle('collapsed');
+});
 function updateRecordCount() {
   recordCount.textContent = `${filteredData.length} requirement${filteredData.length !== 1 ? 's' : ''}`;
 }

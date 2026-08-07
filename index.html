@@ -7,7 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>J&J LSC – Experience Requirements</title>
-  <link rel="stylesheet" href="styles.css?v=29" />
+  <link rel="stylesheet" href="styles.css?v=30" />
 </head>
 <body>
 
@@ -153,6 +153,32 @@
       <span id="lastUpdatedText" class="subheader-timestamp">—</span>
     </div>
 
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       STATS SUMMARY BAR
+  ═══════════════════════════════════════════ -->
+  <div class="stats-bar" id="statsBar">
+    <div class="stats-header">
+      <span class="stats-bar-label">By Solution Type</span>
+      <button class="stats-toggle" id="statsToggle" title="Collapse summary" aria-label="Toggle summary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+      </button>
+    </div>
+    <div class="stats-cards" id="statsCards">
+      <div class="stat-card">
+        <span class="stat-number" id="statConfiguration">0</span>
+        <span class="stat-label">Configuration</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="statCustomization">0</span>
+        <span class="stat-label">Customization</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="statProduct">0</span>
+        <span class="stat-label">Product</span>
+      </div>
+    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════
@@ -351,6 +377,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
-  <script src="app.js?v=29"></script>
+  <script src="app.js?v=30"></script>
 </body>
 </html>
