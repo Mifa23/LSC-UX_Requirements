@@ -272,12 +272,11 @@ body {
 }
 
 .logo {
-  width: 260px;
-  height: 76px;
+  width: 195px;
+  height: 57px;
   object-fit: contain;
   object-position: left center;
   display: block;
-  /* Preserve ratio — do not stretch */
   flex-shrink: 0;
 }
 
@@ -290,7 +289,7 @@ body {
 }
 
 .header-title {
-  font-size: 20px;
+  font-size: 28px;
   font-weight: 700;
   color: #fff;
   letter-spacing: .2px;
@@ -300,7 +299,7 @@ body {
 }
 
 @media (max-width: 600px) {
-  .header-title { font-size: 15px; }
+  .header-title { font-size: 18px; }
 }
 
 .header-right {
@@ -1468,7 +1467,7 @@ td.editable-select:hover .cell-caret { color: #EB1700; }
 
 @media (max-width: 600px) {
   /* Logo scales down → header height = 47px + 40px padding = 87px */
-  .logo { width: 160px; height: 47px; }
+  .logo { width: 120px; height: 35px; }
 
   /* Subheader sticks just below the smaller mobile header */
   .subheader { top: 87px; }
