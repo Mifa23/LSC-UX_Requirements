@@ -445,18 +445,12 @@ body {
 
 .subheader-row-1 {
   justify-content: space-between;
-  padding: 12px 0 10px;
-  gap: 16px;
+  align-items: center;
+  padding: 10px 0 8px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-/* Row 2 — view toggle + export + timestamp */
-.subheader-row-2 {
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 8px 0;
-  gap: 8px 10px;
-}
 /* Controls group (Table/Grid + Export) — never wraps or shrinks */
 .subheader-controls {
   display: flex;
@@ -464,14 +458,13 @@ body {
   gap: 10px;
   flex-shrink: 0;
   flex-wrap: nowrap;
-  min-width: max-content; /* ensures content is never clipped */
+  min-width: max-content;
+  margin-left: auto;
 }
 
-.subheader-left {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  flex-shrink: 0;
+/* Slim timestamp row below the main toolbar */
+.subheader-timestamp-row {
+  padding: 0 0 6px;
 }
 
 .page-title {
@@ -1446,7 +1439,7 @@ td.editable-select:hover .cell-caret { color: #EB1700; }
 @media (max-width: 900px) {
   .subheader-row-1 { flex-direction: column; align-items: flex-start; }
   .subheader-filters { width: 100%; }
-  /* Clear + Refresh left-aligned when filters stack vertically */
+  .subheader-controls { margin-left: 0; }
   #clearFilters { margin-left: 0; }
   .main-content { padding: 16px; }
   .card-grid { grid-template-columns: 1fr; }

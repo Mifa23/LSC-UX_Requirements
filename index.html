@@ -7,7 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <title>J&J LSC – Experience Requirements</title>
-  <link rel="stylesheet" href="styles.css?v=25" />
+  <link rel="stylesheet" href="styles.css?v=26" />
 </head>
 <body>
 
@@ -83,12 +83,11 @@
   ═══════════════════════════════════════════ -->
   <div class="subheader">
 
-    <!-- Row 1: Title + Filters -->
+    <!-- Single row: Filters + View toggle + Export -->
     <div class="subheader-row subheader-row-1">
-      <div class="subheader-left">
-        <!-- page-title moved to header red tile -->
-        <span class="record-count" id="recordCount" style="display:none">24 requirements</span>
-      </div>
+
+      <!-- hidden record count — kept for future placement -->
+      <span class="record-count" id="recordCount" style="display:none">24 requirements</span>
 
       <div class="subheader-filters">
         <div class="filter-group">
@@ -123,11 +122,8 @@
           <span class="refresh-label">Refresh</span>
         </button>
       </div>
-    </div>
 
-    <!-- Row 2: View toggle + Export + Timestamp -->
-    <div class="subheader-row subheader-row-2">
-      <!-- This group never wraps internally -->
+      <!-- View toggle + Export aligned right -->
       <div class="subheader-controls">
         <div class="view-toggle">
           <button class="view-btn active" id="tableViewBtn" title="Table view">
@@ -143,7 +139,6 @@
             Grid
           </button>
         </div>
-
         <button class="export-btn" id="exportCsvBtn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
@@ -151,8 +146,10 @@
           Export CSV
         </button>
       </div>
+    </div>
 
-      <!-- Sits right of controls when space allows; wraps to next line (left-aligned) when not -->
+    <!-- Timestamp slim row -->
+    <div class="subheader-timestamp-row">
       <span id="lastUpdatedText" class="subheader-timestamp">—</span>
     </div>
 
@@ -354,6 +351,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
-  <script src="app.js?v=28"></script>
+  <script src="app.js?v=29"></script>
 </body>
 </html>
