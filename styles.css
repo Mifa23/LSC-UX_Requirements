@@ -952,14 +952,6 @@ td.editable-select:hover .cell-caret { color: #EB1700; }
 .dd-item:hover    { background: var(--bg-body); }
 .dd-item.selected { background: var(--bg-body); font-weight: 600; color: var(--jj-red); }
 
-/* clear option */
-.dd-clear {
-  margin-top: 6px;
-  border-top: 1px solid var(--border);
-  padding-top: 6px;
-}
-.dd-clear .dd-item { color: var(--text-muted); font-size: 12px; }
-.dd-clear .dd-item:hover { color: var(--jj-red); }
 
 /* ═══════════════════════════════════════════
    CARD VIEW

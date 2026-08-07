@@ -881,23 +881,7 @@ function onSelectCellClick(e) {
     panel.appendChild(list);
   }
 
-  // clear option
-  if (current) {
-    const clearWrap = document.createElement('div');
-    clearWrap.className = 'dd-clear dd-list';
-    const clearBtn = document.createElement('button');
-    clearBtn.className = 'dd-item';
-    clearBtn.textContent = '✕  Clear';
-    clearBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      DATA[idx][field] = '';
-      saveData();
-      closeDropdown();
-      applyFilters();
-    });
-    clearWrap.appendChild(clearBtn);
-    panel.appendChild(clearWrap);
-  }
+  // no clear option — once a selection is made it stays; default shows "–"
 
   // position panel
   document.body.appendChild(panel);
