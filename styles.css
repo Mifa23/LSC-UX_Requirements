@@ -687,11 +687,8 @@ body {
   line-height: 1;
   letter-spacing: -1px;
 }
-/* Pale blue set — each card a distinct shade */
-.stat-num-1 { color: #93C5FD; }  /* blue-300 */
-.stat-num-2 { color: #60A5FA; }  /* blue-400 */
-.stat-num-3 { color: #3B82F6; }  /* blue-500 */
-.stat-num-4 { color: #BFDBFE; }  /* blue-200 — lightest for Undefined */
+/* Uniform pale blue for all stat numbers */
+.stat-num-1, .stat-num-2, .stat-num-3, .stat-num-4 { color: #60A5FA; }
 
 .stat-label {
   font-size: 12px;
