@@ -422,7 +422,7 @@ body {
 ═══════════════════════════════════════════ */
 .subheader {
   position: sticky;
-  top: 116px;
+  top: 97px;
   z-index: 90;
   background: var(--bg-subheader);
   border-bottom: 1px solid var(--border);
@@ -1470,7 +1470,7 @@ td.editable-select:hover .cell-caret { color: #EB1700; }
   .logo { width: 120px; height: 35px; }
 
   /* Subheader sticks just below the smaller mobile header */
-  .subheader { top: 87px; }
+  .subheader { top: 75px; }
 
   /* Refresh: icon only, no label */
   .refresh-label { display: none; }
